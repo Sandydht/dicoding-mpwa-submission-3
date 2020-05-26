@@ -29,11 +29,18 @@
 
     <main>
         <div id="body-content" class="container"></div>
+        <div class="fixed-action-btn">
+            <a class="btn-floating btn-large indigo" id="save">
+                <i class="large material-icons">save</i>
+            </a>
+        </div>
     </main>
 
     <script src="/js/materialize.min.js"></script>
     <script src="/js/payload.js"></script>
     <script src="/js/api.js"></script>
+    <script src="/js/idb.js"></script>
+    <script src="/js/db.js"></script>
     <script>
         if ("serviceWorker" in navigator) {
             window.addEventListener("load", function () {
@@ -52,6 +59,22 @@
 
         document.addEventListener("DOMContentLoaded", () => {
             getStandingById();
+
+            const save = document.getElementById("save");
+            save.onclick = function () {
+                console.log("Tombol FAB di klik");
+                getStandingById()
+                    .then(standing => {
+                        saveStandings(standing)
+                            .then(success => {
+                                M.toast({ html: success });
+                                save.style.display = "none";
+                            })
+                            .catch(failed => {
+                                M.toast({ html: failed });
+                            })
+                    })
+            }
         })
     </script>
 </body>

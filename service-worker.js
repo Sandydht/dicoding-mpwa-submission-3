@@ -8,6 +8,8 @@ workbox.precaching.precacheAndRoute([
     { url: "/js/materialize.min.js", revision: "1" },
     { url: "/js/payload.js", revision: "1" },
     { url: "/js/api.js", revision: "1" },
+    { url: "/js/db.js", revision: "1" },
+    { url: "/js/idb.js", revision: "1" },
     { url: "/css/materialize.min.css", revision: "1" },
     { url: "/manifest.json", revision: "1" },
 ]);

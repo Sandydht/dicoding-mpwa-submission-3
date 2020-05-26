@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (page === "home") {
                     getStandings();
                 }
-
+                
                 if (this.status == 200) {
                     content.innerHTML = xhttp.responseText;
                 } else if (this.status == 404) {

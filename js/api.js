@@ -125,90 +125,94 @@ const getStandings = () => {
 }
 
 const getStandingById = () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const idParam = urlParams.get("id");
+    return new Promise((resolve, reject) => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const idParam = urlParams.get("id");
 
-    if ("caches" in window) {
-        caches.match(`${base_url}teams/${idParam}`)
-            .then(response => {
-                if (response) {
-                    response.json()
-                        .then(data => {
-                            let standingHTML = "";
+        if ("caches" in window) {
+            caches.match(`${base_url}teams/${idParam}`)
+                .then(response => {
+                    if (response) {
+                        response.json()
+                            .then(data => {
+                                let standingHTML = "";
 
-                            standingHTML += `
-                            <div class="card">
-                                <div class="card-image">
-                                    <img src="${data.crestUrl}" class="responsive-img" alt="Thubmnail" style="max-height: 200px;">
-                                </div>
-                                <div class="card-content">
-                                    <span class="card-title">${data.name}</span>
-                                    <table>
-                                        <tr>
-                                            <th>Official Website</th>
-                                            <td><a href="${data.website}" target="blank">${data.website}</a></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Address</th>
-                                            <td>${data.address}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Email</th>
-                                            <td>${data.email}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Phone</th>
-                                            <td>${data.phone}</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>`;
+                                standingHTML += `
+                                <div class="card">
+                                    <div class="card-image">
+                                        <img src="${data.crestUrl}" class="responsive-img" alt="Thubmnail" style="max-height: 200px;">
+                                    </div>
+                                    <div class="card-content">
+                                        <span class="card-title">${data.name}</span>
+                                        <table>
+                                            <tr>
+                                                <th>Official Website</th>
+                                                <td><a href="${data.website}" target="blank">${data.website}</a></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Address</th>
+                                                <td>${data.address}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Email</th>
+                                                <td>${data.email}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Phone</th>
+                                                <td>${data.phone}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>`;
 
-                            document.getElementById("body-content").innerHTML = standingHTML;
-                        })
-                }
-            })
-    }
-
-    return fetch(`${base_url}teams/${idParam}`, {
-        headers: {
-            "X-Auth-Token": auth_token
+                                document.getElementById("body-content").innerHTML = standingHTML;
+                                resolve(data);
+                            })
+                    }
+                })
         }
-    })
-        .then(status)
-        .then(json)
-        .then(data => {
-            let standingHTML = "";
 
-            standingHTML += `
-            <div class="card">
-                <div class="card-image">
-                    <img src="${data.crestUrl}" class="responsive-img" alt="Thubmnail" style="max-height: 200px;">
-                </div>
-                <div class="card-content">
-                    <span class="card-title">${data.name}</span>
-                    <table>
-                        <tr>
-                            <th>Official Website</th>
-                            <td><a href="${data.website}" target="blank">${data.website}</a></td>
-                        </tr>
-                        <tr>
-                            <th>Address</th>
-                            <td>${data.address}</td>
-                        </tr>
-                        <tr>
-                            <th>Email</th>
-                            <td>${data.email}</td>
-                        </tr>
-                        <tr>
-                            <th>Phone</th>
-                            <td>${data.phone}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>`;
-
-            document.getElementById("body-content").innerHTML = standingHTML;
+        return fetch(`${base_url}teams/${idParam}`, {
+            headers: {
+                "X-Auth-Token": auth_token
+            }
         })
-        .catch(error)
+            .then(status)
+            .then(json)
+            .then(data => {
+                let standingHTML = "";
+
+                standingHTML += `
+                <div class="card">
+                    <div class="card-image">
+                        <img src="${data.crestUrl}" class="responsive-img" alt="Thubmnail" style="max-height: 200px;">
+                    </div>
+                    <div class="card-content">
+                        <span class="card-title">${data.name}</span>
+                        <table>
+                            <tr>
+                                <th>Official Website</th>
+                                <td><a href="${data.website}" target="blank">${data.website}</a></td>
+                            </tr>
+                            <tr>
+                                <th>Address</th>
+                                <td>${data.address}</td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td>${data.email}</td>
+                            </tr>
+                            <tr>
+                                <th>Phone</th>
+                                <td>${data.phone}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>`;
+
+                document.getElementById("body-content").innerHTML = standingHTML;
+                resolve(data);
+            })
+            .catch(error)
+    })
 }
