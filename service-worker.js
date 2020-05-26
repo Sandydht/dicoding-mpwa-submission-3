@@ -3,15 +3,17 @@ importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox
 workbox.precaching.precacheAndRoute([
     { url: "/index.html", revision: "1" },
     { url: "/nav.html", revision: "1" },
+    { url: "/standings.html", revision: "1" },
     { url: "/js/nav.js", revision: "1" },
     { url: "/js/materialize.min.js", revision: "1" },
     { url: "/js/payload.js", revision: "1" },
+    { url: "/js/api.js", revision: "1" },
     { url: "/css/materialize.min.css", revision: "1" },
     { url: "/manifest.json", revision: "1" },
 ]);
 
 workbox.routing.registerRoute(
-    new RegExp("pages/"),
+    new RegExp("/pages/"),
     workbox.strategies.staleWhileRevalidate({
         cacheName: "pages"
     })
@@ -30,6 +32,13 @@ workbox.routing.registerRoute(
                 maxEntries: 30,
             }),
         ]
+    })
+);
+
+workbox.routing.registerRoute(
+    new RegExp("https://api.football-data.org/v2/"),
+    workbox.strategies.cacheFirst({
+        cacheName: "football"
     })
 );
 
