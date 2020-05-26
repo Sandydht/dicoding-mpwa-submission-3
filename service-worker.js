@@ -44,3 +44,13 @@ workbox.routing.registerRoute(
         ]
     })
 );
+
+self.addEventListener("push", function (event) {
+    const title = "Premiere League";
+    const options = {
+        body: event.data.text(),
+        icon: "/images/icons/icon-512x512.png"
+    }
+
+    event.waitUntil(self.registration.showNotification(title, options));
+});
