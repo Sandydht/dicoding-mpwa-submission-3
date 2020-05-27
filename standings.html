@@ -77,7 +77,19 @@
                 getSavedStandingById();
             } else {
                 btnDelete.style.display = "none";
-                getStandingById();
+                getSavedStandingById()
+                    .then(res => {
+                        if (res !== null) {
+                            btnSave.style.display = "none";
+                        }
+                    })
+
+                getStandingById()
+                    .catch(err => {
+                        if (err !== null) {
+                            btnSave.style.display = "none";
+                        }
+                    })
             }
 
 
@@ -85,6 +97,7 @@
                 getStandingById()
                     .then(standing => {
                         saveStandings(standing);
+                        btnSave.style.display = "none";
                     })
             }
 
@@ -92,6 +105,7 @@
                 deleteStandings(parseInt(idParam))
                     .then(success => {
                         M.toast({ html: success })
+                        btnDelete.style.display = "none";
                         setInterval(function () {
                             window.location.assign("./index.html");
                         }, 1000);

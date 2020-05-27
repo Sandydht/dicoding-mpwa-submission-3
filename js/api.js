@@ -340,79 +340,82 @@ const getSavedStandings = () => {
 }
 
 const getSavedStandingById = () => {
+    return new Promise((resolve, reject) => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const idParam = urlParams.get("id");
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const idParam = urlParams.get("id");
-
-    getById(parseInt(idParam))
-        .then(data => {
-            let standingHTML = "";
-            standingHTML += `
-            <div class="row">
-                <div class="col s12">
-                    <div class="card">
-                        <div class="card-image">
-                            <img src="${data.crestUrl}" class="responsive-img" alt="Thubmnail" style="max-height: 200px;">
-                        </div>
-                        <div class="card-content">
-                            <span class="card-title">${data.name}</span>
-                            <table>
-                                <tr>
-                                    <th>Official Website</th>
-                                    <td><a href="${data.website}" target="blank">${data.website}</a></td>
-                                </tr>
-                                <tr>
-                                    <th>Address</th>
-                                    <td>${data.address}</td>
-                                </tr>
-                                <tr>
-                                    <th>Email</th>
-                                    <td>${data.email}</td>
-                                </tr>
-                                <tr>
-                                    <th>Phone</th>
-                                    <td>${data.phone}</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="col s12">
-                    <div class="card">
-                        <div class="card-content">
-                            <span class="card-title">Squad</span>
-                            <table class="responsive-table centered highlight">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Nationality</th>
-                                        <th>Position</th>
-                                        <th>Role</th>
-                                        <th>Shirt Number</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>`;
-
-            data.squad.forEach(sqd => {
+        getById(parseInt(idParam))
+            .then(data => {
+                let standingHTML = "";
                 standingHTML += `
-                <tr>
-                    <td>${sqd.name}</td>
-                    <td>${sqd.nationality}</td>
-                    <td>${sqd.position}</td>
-                    <td>${sqd.role}</td>
-                    <td>${sqd.shirtNumber}</td>
-                </tr>`;
-            })
-
-            standingHTML += `
-                                </tbody>
-                            </table>
+                <div class="row">
+                    <div class="col s12">
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="${data.crestUrl}" class="responsive-img" alt="Thubmnail" style="max-height: 200px;">
+                            </div>
+                            <div class="card-content">
+                                <span class="card-title">${data.name}</span>
+                                <table>
+                                    <tr>
+                                        <th>Official Website</th>
+                                        <td><a href="${data.website}" target="blank">${data.website}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Address</th>
+                                        <td>${data.address}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Email</th>
+                                        <td>${data.email}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Phone</th>
+                                        <td>${data.phone}</td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>`;
+                    <div class="col s12">
+                        <div class="card">
+                            <div class="card-content">
+                                <span class="card-title">Squad</span>
+                                <table class="responsive-table centered highlight">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Nationality</th>
+                                            <th>Position</th>
+                                            <th>Role</th>
+                                            <th>Shirt Number</th>
+                                        </tr>
+                                    </thead>
 
-            document.getElementById("body-content").innerHTML = standingHTML;
-        })
+                                    <tbody>`;
+
+                    data.squad.forEach(sqd => {
+                        standingHTML += `
+                    <tr>
+                        <td>${sqd.name}</td>
+                        <td>${sqd.nationality}</td>
+                        <td>${sqd.position}</td>
+                        <td>${sqd.role}</td>
+                        <td>${sqd.shirtNumber}</td>
+                    </tr>`;
+                    })
+
+                    standingHTML += `
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+
+                document.getElementById("body-content").innerHTML = standingHTML;
+                resolve(data);
+            })
+            .catch(() => reject)
+    })
 }
