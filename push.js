@@ -12,14 +12,14 @@ webPush.setVapidDetails(
 );
 
 const pushSubscription = {
-    "endpoint": "https://fcm.googleapis.com/fcm/send/enyZ0t_6GD4:APA91bGosG75nGygQFnVCsCLDkHXxkZMag2I1M7LYKjkKdVkbMr3b8j9FubWZMnIOur0gEi1TSfH6uuNn-uX0uiYuuOpgYViXC9YILdecnCgOr_hXYpofG8VOrFXJsKZKu4N6Az50wHy",
+    "endpoint": "https://fcm.googleapis.com/fcm/send/eNfM3-M__TU:APA91bEyevzG2qCDDSk7PSVmkunYCWWwUn2d-OTwgXfQuO1qVftGrayVeDfNlq0Bi7GMRBxn5-iOgZ2isQnD18GwxIz9qVPgkFC5llINC-m7qgupeVWzatc5i97TTmiyJrx9WuNbdMQU",
     "keys": {
-        "p256dh": "BGaDP8gAlbRVInpiJS7pssG9GUksChqU3VYYuhdzclphh9b+XC/gZgVi6ObGXeryN/fvX2ceZkkled3X3EsUSM4=",
-        "auth": "GSiShpKaLcm5ui6GOExwlA=="
+        "p256dh": "BNUTLllpwkiTyoxv5RpU+FHn+YmA/1qG+WiS/3T0h6nIZxobDk4hVgCoCI9yqZnpt4yt/AMSNyWiqNmtjmiYHuU=",
+        "auth": "/3TWiFIpTRJ/+7US+JkqHw=="
     }
 };
 
-const payload = 'Notifikasi payload';
+const payload = 'Hello from premiere league';
 
 const options = {
     gcmAPIKey: '308840371031',

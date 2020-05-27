@@ -76,7 +76,19 @@
                 getSavedStandingById();
             } else {
                 btnDelete.style.display = "none";
-                getStandingById();
+                getSavedStandingById()
+                    .then(res => {
+                        if (res !== null) {
+                            btnSave.style.display = "none";
+                        }
+                    })
+
+                getStandingById()
+                    .catch(() => {
+
+                        btnSave.style.display = "none";
+
+                    })
             }
 
 

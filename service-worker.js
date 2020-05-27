@@ -1,4 +1,4 @@
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js');
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
 
 workbox.precaching.precacheAndRoute([
     { url: "/index.html", revision: "1" },
@@ -22,23 +22,15 @@ workbox.precaching.precacheAndRoute([
     { url: "/images/icons/icon-192x192.png", revision: "1" },
     { url: "/images/icons/icon-384x384.png", revision: "1" },
     { url: "/images/icons/icon-512x512.png", revision: "1" },
-]);
+],
+    {
+        ignoreURLParametersMatching: [/.*/]
+    });
 
 workbox.routing.registerRoute(
-    /^https:\/\/fonts\.googleapis\.com/,
-    workbox.strategies.cacheFirst({
-        cacheName: 'google-fonts-stylesheets',
-        plugins: [
-            new workbox.cacheableResponse.Plugin({
-                statuses: [0, 200]
-            }),
-            new workbox.expiration.Plugin({
-                maxAgeSeconds: 60 * 60 * 24 * 365,
-                maxEntries: 30
-            })
-        ]
-    })
-);
+    new RegExp("https://api.football-data.org/v2/"),
+    new workbox.strategies.CacheFirst()
+)
 
 self.addEventListener("push", function (event) {
     const title = "Premiere League";

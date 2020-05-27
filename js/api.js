@@ -15,7 +15,7 @@ const json = response => {
 }
 
 const error = error => {
-    console.log(`Error: ${error}`);
+    document.getElementById("body-content").innerHTML = "<h3>Network Offline</h3>";
 }
 
 const getStandings = () => {
@@ -170,6 +170,7 @@ const getStandingById = () => {
                             })
                     }
                 })
+                .catch(() => reject)
         }
 
         return fetch(`${base_url}teams/${idParam}`, {
@@ -218,10 +219,11 @@ const getStandingById = () => {
 }
 
 const getSavedStandings = () => {
-    getAll().then(standings => {
-        let standingsHTML = "";
-        standings.forEach(data => {
-            standingsHTML += `
+    getAll()
+        .then(standings => {
+            let standingsHTML = "";
+            standings.forEach(data => {
+                standingsHTML += `
             <div class="card">
                 <div class="card-image">
                     <img src="${data.crestUrl}" alt="Logo" style="max-height: 200px">
@@ -252,47 +254,51 @@ const getSavedStandings = () => {
                 </div>
             </div>`;
 
-            document.getElementById("standings").innerHTML = standingsHTML;
+                document.getElementById("standings").innerHTML = standingsHTML;
+            })
         })
-    })
 }
 
 const getSavedStandingById = () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const idParam = urlParams.get("id");
+    return new Promise((resolve, reject) => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const idParam = urlParams.get("id");
 
-    getById(parseInt(idParam))
-        .then(data => {
-            let standingHTML = "";
+        getById(parseInt(idParam))
+            .then(data => {
+                let standingHTML = "";
 
-            standingHTML += `
-            <div class="card">
-                <div class="card-image">
-                    <img src="${data.crestUrl}" class="responsive-img" alt="Thubmnail" style="max-height: 200px;">
-                </div>
-                <div class="card-content">
-                    <span class="card-title">${data.name}</span>
-                    <table>
-                        <tr>
-                            <th>Official Website</th>
-                            <td><a href="${data.website}" target="blank">${data.website}</a></td>
-                        </tr>
-                        <tr>
-                            <th>Address</th>
-                            <td>${data.address}</td>
-                        </tr>
-                        <tr>
-                            <th>Email</th>
-                            <td>${data.email}</td>
-                        </tr>
-                        <tr>
-                            <th>Phone</th>
-                            <td>${data.phone}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>`;
+                standingHTML += `
+                <div class="card">
+                    <div class="card-image">
+                        <img src="${data.crestUrl}" class="responsive-img" alt="Thubmnail" style="max-height: 200px;">
+                    </div>
+                    <div class="card-content">
+                        <span class="card-title">${data.name}</span>
+                        <table>
+                            <tr>
+                                <th>Official Website</th>
+                                <td><a href="${data.website}" target="blank">${data.website}</a></td>
+                            </tr>
+                            <tr>
+                                <th>Address</th>
+                                <td>${data.address}</td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td>${data.email}</td>
+                            </tr>
+                            <tr>
+                                <th>Phone</th>
+                                <td>${data.phone}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>`;
 
-            document.getElementById("body-content").innerHTML = standingHTML;
-        })
+                document.getElementById("body-content").innerHTML = standingHTML;
+                resolve(data);
+            })
+            .catch(() => reject)
+    })
 }
