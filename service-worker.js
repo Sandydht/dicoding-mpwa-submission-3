@@ -29,8 +29,10 @@ workbox.precaching.precacheAndRoute([
 
 workbox.routing.registerRoute(
     new RegExp("https://api.football-data.org/v2/"),
-    new workbox.strategies.CacheFirst()
-)
+    new workbox.strategies.CacheFirst({
+        cacheName: "Football"
+    })
+);
 
 self.addEventListener("push", function (event) {
     const title = "Premiere League";
