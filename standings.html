@@ -34,6 +34,11 @@
                 <i class="large material-icons">save</i>
             </a>
         </div>
+        <div class="fixed-action-btn">
+            <a class="btn-floating btn-large indigo" id="delete">
+                <i class="large material-icons">delete</i>
+            </a>
+        </div>
     </main>
 
     <script src="/js/materialize.min.js"></script>
@@ -58,22 +63,37 @@
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-            getStandingById();
+            const urlParams = new URLSearchParams(window.location.search);
+            const isFromSaved = urlParams.get("saved");
+            const idParam = urlParams.get("id");
+            const btnSave = document.getElementById("save");
+            const btnDelete = document.getElementById("delete");
 
-            const save = document.getElementById("save");
-            save.onclick = function () {
-                console.log("Tombol FAB di klik");
+            if (isFromSaved) {
+                btnSave.style.display = "none";
+                getSavedStandingById();
+            } else {
+                btnDelete.style.display = "none";
+                getStandingById();
+            }
+
+
+            btnSave.onclick = function () {
                 getStandingById()
                     .then(standing => {
-                        saveStandings(standing)
-                            .then(success => {
-                                M.toast({ html: success });
-                                save.style.display = "none";
-                            })
-                            .catch(failed => {
-                                M.toast({ html: failed });
-                            })
+                        saveStandings(standing);
+                        btnSave.style.display = "none";
                     })
+            }
+
+            btnDelete.onclick = function () {
+                deleteStandings(parseInt(idParam))
+                    .then(success => {
+                        M.toast({ html: success })
+                        btnDelete.style.display = "none";
+                        window.location.assign("./index.html");
+                    })
+                    .catch(failed => M.toast({ html: failed }))
             }
         })
     </script>

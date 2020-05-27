@@ -216,3 +216,83 @@ const getStandingById = () => {
             .catch(error)
     })
 }
+
+const getSavedStandings = () => {
+    getAll().then(standings => {
+        let standingsHTML = "";
+        standings.forEach(data => {
+            standingsHTML += `
+            <div class="card">
+                <div class="card-image">
+                    <img src="${data.crestUrl}" alt="Logo" style="max-height: 200px">
+                </div>
+                <div class="card-content">
+                    <span class="card-title">${data.name}</span>
+                    <table>
+                        <tr>
+                            <th>Official Website</th>
+                            <td><a href="${data.website}" target="blank">${data.website}</a></td>
+                        </tr>
+                        <tr>
+                            <th>Address</th>
+                            <td>${data.address}</td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td>${data.email}</td>
+                        </tr>
+                        <tr>
+                            <th>Phone</th>
+                            <td>${data.phone}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="card-action">
+                    <a href="./standings.html?id=${data.id}&saved=true">See Detail</a>
+                </div>
+            </div>`;
+
+            document.getElementById("standings").innerHTML = standingsHTML;
+        })
+    })
+}
+
+const getSavedStandingById = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const idParam = urlParams.get("id");
+
+    getById(parseInt(idParam))
+        .then(data => {
+            let standingHTML = "";
+
+            standingHTML += `
+            <div class="card">
+                <div class="card-image">
+                    <img src="${data.crestUrl}" class="responsive-img" alt="Thubmnail" style="max-height: 200px;">
+                </div>
+                <div class="card-content">
+                    <span class="card-title">${data.name}</span>
+                    <table>
+                        <tr>
+                            <th>Official Website</th>
+                            <td><a href="${data.website}" target="blank">${data.website}</a></td>
+                        </tr>
+                        <tr>
+                            <th>Address</th>
+                            <td>${data.address}</td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td>${data.email}</td>
+                        </tr>
+                        <tr>
+                            <th>Phone</th>
+                            <td>${data.phone}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>`;
+
+            document.getElementById("body-content").innerHTML = standingHTML;
+        })
+}

@@ -38,13 +38,6 @@ workbox.routing.registerRoute(
 );
 
 workbox.routing.registerRoute(
-    new RegExp("https://api.football-data.org/v2/"),
-    workbox.strategies.cacheFirst({
-        cacheName: "football"
-    })
-);
-
-workbox.routing.registerRoute(
     /\.(?:png|gif|jpg|jpeg|svg)$/,
     workbox.strategies.cacheFirst({
         cacheName: "icons",
