@@ -12,14 +12,17 @@ workbox.precaching.precacheAndRoute([
     { url: "/js/idb.js", revision: "1" },
     { url: "/css/materialize.min.css", revision: "1" },
     { url: "/manifest.json", revision: "1" },
+    { url: "/pages/home.html", revision: "1" },
+    { url: "/pages/saved.html", revision: "1" },
+    { url: "/images/icons/icon-72x72.png", revision: "1" },
+    { url: "/images/icons/icon-96x96.png", revision: "1" },
+    { url: "/images/icons/icon-128x128.png", revision: "1" },
+    { url: "/images/icons/icon-144x144.png", revision: "1" },
+    { url: "/images/icons/icon-152x152.png", revision: "1" },
+    { url: "/images/icons/icon-192x192.png", revision: "1" },
+    { url: "/images/icons/icon-384x384.png", revision: "1" },
+    { url: "/images/icons/icon-512x512.png", revision: "1" },
 ]);
-
-workbox.routing.registerRoute(
-    new RegExp("/pages/"),
-    workbox.strategies.staleWhileRevalidate({
-        cacheName: "pages"
-    })
-);
 
 workbox.routing.registerRoute(
     /^https:\/\/fonts\.googleapis\.com/,
@@ -27,24 +30,11 @@ workbox.routing.registerRoute(
         cacheName: 'google-fonts-stylesheets',
         plugins: [
             new workbox.cacheableResponse.Plugin({
-                statuses: [0, 200],
+                statuses: [0, 200]
             }),
             new workbox.expiration.Plugin({
                 maxAgeSeconds: 60 * 60 * 24 * 365,
-                maxEntries: 30,
-            }),
-        ]
-    })
-);
-
-workbox.routing.registerRoute(
-    /\.(?:png|gif|jpg|jpeg|svg)$/,
-    workbox.strategies.cacheFirst({
-        cacheName: "icons",
-        plugins: [
-            new workbox.expiration.Plugin({
-                maxEntries: 60,
-                maxAgeSeconds: 30 * 24 * 60 * 60,
+                maxEntries: 30
             })
         ]
     })
