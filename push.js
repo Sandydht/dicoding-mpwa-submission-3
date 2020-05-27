@@ -22,7 +22,7 @@ const pushSubscription = {
 const payload = 'Hello from premiere league';
 
 const options = {
-    gcmAPIKey: '308840371031',
+    gcmAPIKey: '122533598104',
     TTL: 60
 };
 
