@@ -14,7 +14,7 @@ const json = response => {
     return response.json();
 }
 
-const error = error => {
+const error = () => {
     document.getElementById("body-content").innerHTML = "<h3>Network Offline</h3>";
 }
 
@@ -208,7 +208,6 @@ const getStandingById = () => {
                             })
                     }
                 })
-                .catch(() => reject)
         }
 
         return fetch(`${base_url}teams/${idParam}`, {
@@ -297,84 +296,123 @@ const getStandingById = () => {
 const getSavedStandings = () => {
     getAll()
         .then(standings => {
-            let standingsHTML = "";
-            standings.forEach(data => {
-                standingsHTML += `
-            <div class="card">
-                <div class="card-image">
-                    <img src="${data.crestUrl}" alt="Logo" style="max-height: 200px">
-                </div>
-                <div class="card-content">
-                    <span class="card-title">${data.name}</span>
-                    <table>
-                        <tr>
-                            <th>Official Website</th>
-                            <td><a href="${data.website}" target="blank">${data.website}</a></td>
-                        </tr>
-                        <tr>
-                            <th>Address</th>
-                            <td>${data.address}</td>
-                        </tr>
-                        <tr>
-                            <th>Email</th>
-                            <td>${data.email}</td>
-                        </tr>
-                        <tr>
-                            <th>Phone</th>
-                            <td>${data.phone}</td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="card-action">
-                    <a href="./standings.html?id=${data.id}&saved=true">See Detail</a>
-                </div>
-            </div>`;
+            if (standings.length === 0) {
+                document.getElementById("standings").innerHTML = "<h3>No file saved</h3>";
+            } else {
+                let standingsHTML = "";
+                standings.forEach(data => {
+                    standingsHTML += `
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="${data.crestUrl}" alt="Logo" style="max-height: 200px">
+                        </div>
+                        <div class="card-content">
+                            <span class="card-title">${data.name}</span>
+                            <table>
+                                <tr>
+                                    <th>Official Website</th>
+                                    <td><a href="${data.website}" target="blank">${data.website}</a></td>
+                                </tr>
+                                <tr>
+                                    <th>Address</th>
+                                    <td>${data.address}</td>
+                                </tr>
+                                <tr>
+                                    <th>Email</th>
+                                    <td>${data.email}</td>
+                                </tr>
+                                <tr>
+                                    <th>Phone</th>
+                                    <td>${data.phone}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="card-action">
+                            <a href="./standings.html?id=${data.id}&saved=true">See Detail</a>
+                        </div>
+                    </div>`;
 
-                document.getElementById("standings").innerHTML = standingsHTML;
-            })
+                    document.getElementById("standings").innerHTML = standingsHTML;
+                })
+            }
         })
+        .catch(error)
 }
 
 const getSavedStandingById = () => {
-    return new Promise((resolve, reject) => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const idParam = urlParams.get("id");
 
-        getById(parseInt(idParam))
-            .then(data => {
-                let standingHTML = "";
+    const urlParams = new URLSearchParams(window.location.search);
+    const idParam = urlParams.get("id");
 
+    getById(parseInt(idParam))
+        .then(data => {
+            let standingHTML = "";
+            standingHTML += `
+            <div class="row">
+                <div class="col s12">
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="${data.crestUrl}" class="responsive-img" alt="Thubmnail" style="max-height: 200px;">
+                        </div>
+                        <div class="card-content">
+                            <span class="card-title">${data.name}</span>
+                            <table>
+                                <tr>
+                                    <th>Official Website</th>
+                                    <td><a href="${data.website}" target="blank">${data.website}</a></td>
+                                </tr>
+                                <tr>
+                                    <th>Address</th>
+                                    <td>${data.address}</td>
+                                </tr>
+                                <tr>
+                                    <th>Email</th>
+                                    <td>${data.email}</td>
+                                </tr>
+                                <tr>
+                                    <th>Phone</th>
+                                    <td>${data.phone}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title">Squad</span>
+                            <table class="responsive-table centered highlight">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Nationality</th>
+                                        <th>Position</th>
+                                        <th>Role</th>
+                                        <th>Shirt Number</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>`;
+
+            data.squad.forEach(sqd => {
                 standingHTML += `
-                <div class="card">
-                    <div class="card-image">
-                        <img src="${data.crestUrl}" class="responsive-img" alt="Thubmnail" style="max-height: 200px;">
-                    </div>
-                    <div class="card-content">
-                        <span class="card-title">${data.name}</span>
-                        <table>
-                            <tr>
-                                <th>Official Website</th>
-                                <td><a href="${data.website}" target="blank">${data.website}</a></td>
-                            </tr>
-                            <tr>
-                                <th>Address</th>
-                                <td>${data.address}</td>
-                            </tr>
-                            <tr>
-                                <th>Email</th>
-                                <td>${data.email}</td>
-                            </tr>
-                            <tr>
-                                <th>Phone</th>
-                                <td>${data.phone}</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>`;
-
-                document.getElementById("body-content").innerHTML = standingHTML;
-                resolve(data);
+                <tr>
+                    <td>${sqd.name}</td>
+                    <td>${sqd.nationality}</td>
+                    <td>${sqd.position}</td>
+                    <td>${sqd.role}</td>
+                    <td>${sqd.shirtNumber}</td>
+                </tr>`;
             })
-            .catch(() => reject)
-    })
+
+            standingHTML += `
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+
+            document.getElementById("body-content").innerHTML = standingHTML;
+        })
 }
