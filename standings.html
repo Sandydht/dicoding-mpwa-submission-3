@@ -81,9 +81,14 @@
                         if (res !== null) {
                             btnSave.style.display = "none";
                         }
-                    })
+                    });
 
-                console.log(getStandingById());
+                getStandingById()
+                    .catch(res => {
+                        if(res !== null){
+                            btnSave.style.display = "none";
+                        }
+                    });
             }
 
 
