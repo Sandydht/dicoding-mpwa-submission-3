@@ -174,10 +174,10 @@ const getStandingById = () => {
         }
 
         return fetch(`${base_url}teams/${idParam}`, {
-            headers: {
-                "X-Auth-Token": auth_token
-            }
-        })
+                headers: {
+                    "X-Auth-Token": auth_token
+                }
+            })
             .then(status)
             .then(json)
             .then(data => {
@@ -214,7 +214,7 @@ const getStandingById = () => {
                 document.getElementById("body-content").innerHTML = standingHTML;
                 resolve(data);
             })
-            .catch(error)
+            .catch(reject("Gagal Terhubung"))
     })
 }
 
